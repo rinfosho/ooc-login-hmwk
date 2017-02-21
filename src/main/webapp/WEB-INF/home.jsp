@@ -15,7 +15,7 @@
             var="myDS"
             driver="com.mysql.jdbc.Driver"
             url="jdbc:mysql://localhost:3306/User_Database"
-            user="rinfosho" password="ggwellplayed55"
+            user="root" password="qazwsx992erd"
         />
 
         <sql:query var="list_users" dataSource="${myDS}">
