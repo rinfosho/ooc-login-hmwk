@@ -5,12 +5,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Rin on 2/14/2017 AD.
+ * Created by JohnnyV on 2/14/2017 AD.
  */
 public class DatabaseService {
 
+    SecurityService securityService;
+
     Connection conn;
-    private final String SQL_URL = "jdbc:mysql://127.0.0.1:3306/User_Database";
+    private final String SQL_URL = "jdbc:mysql://localhost:3306/User_Database";
 //    private final String SQL_USERNAME = "";
 
     public DatabaseService() {
@@ -24,10 +26,8 @@ public class DatabaseService {
 
     public void deleteDB(String uid){
         try {
-            PreparedStatement preparedStatement = this.conn.prepareStatement(
-                    "DELETE FROM User_Database.User_data WHERE Username = ?");
-            preparedStatement.setString(1, uid);
-            preparedStatement.executeUpdate();
+            PreparedStatement preS = this.conn.prepareStatement("DELETE FROM User_Database.User_data WHERE Username = '" + uid + "' ");
+            preS.executeUpdate();
 
         }catch (SQLException s){
             s.printStackTrace();
@@ -36,9 +36,9 @@ public class DatabaseService {
         }
     }
 
-    public void updateDB(String usr, String fname){
+    public void updateDB(String uid, String usr, String fname){
         try {
-            PreparedStatement preS = this.conn.prepareStatement("UPDATE User_Database.User_data SET Username = ?, FirstName = ? WHERE Username = '" + usr + "'  ");
+            PreparedStatement preS = this.conn.prepareStatement("UPDATE User_Database.User_data SET Username = ?, FirstName = ? WHERE Username = '" + usr + "';");
             preS.setString(1,usr);
             preS.setString(2,fname);
             preS.executeUpdate();
@@ -53,7 +53,7 @@ public class DatabaseService {
     public void insertDB(String usr, String pwd, String fname){
         try {
             PreparedStatement preS = this.conn.prepareStatement("INSERT INTO User_Database.User_data (Username,Password, FirstName) VALUES (?,?,?);");
-            preS.setString(1, usr);
+            preS.setString(1,usr);
             preS.setString(2,pwd);
             preS.setString(3,fname);
             preS.executeUpdate();
@@ -74,13 +74,12 @@ public class DatabaseService {
             ResultSet result = preS.executeQuery();
 
             while (result.next()){
-                String usr = result.getString("Username");
-                String pwd = result.getString("Password");
-                String fname = result.getString("FirstName");
-
+                String id = result.getString("id");
+                String usr = result.getString("username");
+                String pwd = result.getString("password");
+                String fname = result.getString("firstname");
 //                System.out.println("id: " + id + ", username: " + usr + ", pwd: " + pwd + ", fname: " + fname);
                 temp.put(usr,pwd);
-//                System.out.println(temp);
             }
         } catch (SQLException e){
             e.printStackTrace();

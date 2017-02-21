@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.muic.ooc.webapp</groupId>
     <artifactId>hello-webapp</artifactId>
-    <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>Hello Webapp</name>
     <url>http://maven.apache.org</url>
     <properties>
@@ -23,11 +23,6 @@
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.40</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
@@ -60,9 +55,52 @@
             <version>2.6</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.40</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/taglibs/standard -->
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.java-adventures.security</groupId>
+            <artifactId>secure-password-hash</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.mindrot/jbcrypt -->
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.3m</version>
+        </dependency>
+
+
     </dependencies>
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <!-- put your configurations here -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>appassembler-maven-plugin</artifactId>
@@ -84,6 +122,35 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration><failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>io.muic.ooc.webapp.Webapp</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
             </plugin>
         </plugins>
     </build>

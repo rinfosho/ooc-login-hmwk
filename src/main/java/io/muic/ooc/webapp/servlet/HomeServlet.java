@@ -13,10 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author gigadot
- */
+
 public class HomeServlet extends HttpServlet {
 
     private SecurityService securityService;
@@ -36,4 +33,5 @@ public class HomeServlet extends HttpServlet {
             response.sendRedirect("/login");
         }
     }
+
 }

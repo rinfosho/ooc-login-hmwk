@@ -5,26 +5,29 @@
  */
 package io.muic.ooc.webapp.servlet;
 
+import io.muic.ooc.webapp.service.DatabaseService;
 import io.muic.ooc.webapp.service.SecurityService;
-import org.apache.commons.lang.StringUtils;
-
+import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import org.apache.commons.lang.StringUtils;
 
-/**
- *
- * @author gigadot
- */
+
 public class LoginServlet extends HttpServlet {
 
     private SecurityService securityService;
 
+    private DatabaseService databaseService;
+
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        System.out.println("get");
         RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/login.jsp");
         rd.include(request, response);
     }
@@ -33,9 +36,16 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // do login post logic
         // extract username and password from request
+
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+
+        new DatabaseService().readData();
+
+
         if (!StringUtils.isBlank(username) && !StringUtils.isBlank(password)) {
+
+
             if (securityService.authenticate(username, password, request)) {
                 response.sendRedirect("/");
             } else {
@@ -59,5 +69,9 @@ public class LoginServlet extends HttpServlet {
 
     public void setSecurityService(SecurityService securityService) {
         this.securityService = securityService;
+    }
+
+    public void setDatabaseService(DatabaseService databaseService) {
+        this.databaseService = databaseService;
     }
 }
