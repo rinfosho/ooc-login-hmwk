@@ -6,6 +6,7 @@
 package io.muic.ooc.webapp.service;
 
 import com.ja.security.PasswordHash;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -45,8 +46,8 @@ public class SecurityService {
 
     public boolean isCorrect(String pw, String hash_pw){
         try {
-            return new PasswordHash().validatePassword(pw,hash_pw);
-//            return StringUtils.equals(pw, hash_pw);
+//            return new PasswordHash().validatePassword(pw,hash_pw);
+            return StringUtils.equals(pw, hash_pw);
         } catch (Exception e){
             return false;
         }
