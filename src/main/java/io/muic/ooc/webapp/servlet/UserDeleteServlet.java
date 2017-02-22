@@ -44,19 +44,25 @@ public class UserDeleteServlet extends HttpServlet {
 //                .getAttribute("password");
 
 //        System.out.println(uid);
+        String uid = request.getParameter("Username");
+        PrintWriter out = response.getWriter();
+        new DatabaseService().deleteDB(uid);
+        RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/home.jsp");
+        rd.include(request, response);
+        out.print("<p style=\"color:green\">Delete User Successful</p>");
 
 //        if (securityService.isAuthorized(request)) {
-        String uid = request.getParameter("Username");
-        if (!request.getSession().getAttribute("Username").equals(uid)){
-            PrintWriter out = response.getWriter();
-            new DatabaseService().deleteDB(toDeleteId);
-            RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/home.jsp");
-            rd.include(request, response);
-            out.print("<p style=\"color:green\">Delete User Successful</p>");
-        }else {
-            RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/login.jsp");
-            rd.include(request, response);
-        }
+//        String uid = request.getParameter("Username");
+//        if (!request.getSession().getAttribute("Username").equals(uid)){
+//            PrintWriter out = response.getWriter();
+//            new DatabaseService().deleteDB(toDeleteId);
+//            RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/home.jsp");
+//            rd.include(request, response);
+//            out.print("<p style=\"color:green\">Delete User Successful</p>");
+//        }else {
+//            RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/login.jsp");
+//            rd.include(request, response);
+//        }
 //
 //            if () {
 //
