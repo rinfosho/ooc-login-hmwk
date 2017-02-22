@@ -2,7 +2,6 @@ package io.muic.ooc.webapp.servlet;
 
 import io.muic.ooc.webapp.service.DatabaseService;
 import io.muic.ooc.webapp.service.SecurityService;
-import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -46,7 +45,9 @@ public class UserDeleteServlet extends HttpServlet {
 
 //        System.out.println(uid);
 
-        if (securityService.isAuthorized(request)) {
+//        if (securityService.isAuthorized(request)) {
+        String uid = request.getParameter("Username");
+        if (!request.getSession().getAttribute("Username").equals(uid)){
             PrintWriter out = response.getWriter();
             new DatabaseService().deleteDB(toDeleteId);
             RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/home.jsp");
