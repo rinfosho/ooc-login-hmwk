@@ -26,7 +26,8 @@ public class DatabaseService {
 
     public void deleteDB(String uid){
         try {
-            PreparedStatement preS = this.conn.prepareStatement("DELETE FROM User_Database.User_data WHERE Username = '" + uid + "' ");
+            PreparedStatement preS = this.conn.prepareStatement("DELETE FROM User_Database.User_data WHERE Username = ? ");
+            preS.setString(1,uid);
             preS.executeUpdate();
 
         }catch (SQLException s){
