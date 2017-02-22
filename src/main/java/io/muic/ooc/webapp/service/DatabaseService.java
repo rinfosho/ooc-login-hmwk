@@ -38,9 +38,11 @@ public class DatabaseService {
 
     public void updateDB(String uid, String usr, String fname){
         try {
-            PreparedStatement preS = this.conn.prepareStatement("UPDATE User_Database.User_data SET Username = ?, FirstName = ? WHERE Username = '" + usr + "';");
+//            PreparedStatement preS = this.conn.prepareStatement("UPDATE User_Database.User_data SET Username = ?, FirstName = ? WHERE Username = '" + usr + "';");
+            PreparedStatement preS = this.conn.prepareStatement("UPDATE User_Database.User_data SET Username = ?, FirstName = ? WHERE Username = ?");
             preS.setString(1,usr);
             preS.setString(2,fname);
+            preS.setString(3,usr);
             preS.executeUpdate();
 
         }catch (SQLException s){
